@@ -8,63 +8,61 @@ c)la mujer con más temperatura(si la hay)
 pedir datos por prompt y mostrar por document.write o console.log
 */
 function mostrar() {
-	let sexo;
-	let edad;
 	let nombre;
 	let temperatura;
-	let cantidadPersonasMasculino = 0;
-	let cantidadPersonasFemenino = 0;
-	let mujerMayorTemperatura = 0;
-	let flagFemenino = 0;
-	let edadPromedio;
-
+	let sexo;
+	let edad;
+	let contadorHombres = 0;
+	let contadorMujeres = 0;
+	let promedio;
+	let edadTotal = 0;
+	let mujerMasTemperatura = 0;
+	let nombreMujerMasTemperatura;
 
 	for (let i = 0; i < 5; i++) {
-
-		nombre = prompt("Ingrese su nombre");
-
+		nombre = prompt("Ingrese nombre");
 		while (!(isNaN(nombre))) {
-			nombre = prompt("nombre invalido. Ingrese un nombre");
+			nombre = prompt("Nombre invalido. Ingrese nombre");
 		}
 
-		temperatura = parseInt(prompt("Ingrese su temperatura"));
-
-		while (temperatura <= 0) {
-			temperatura = parseInt(prompt("Temperatura Invalida. Ingrese su temperatura"));
-		}
-		sexo = prompt("Ingrese su sexo");
-
-		while (!(sexo == "m" || sexo == "f")) {
-			sexo = prompt("Sexo invalido. Ingrese su sexo");
+		temperatura = parseFloat(prompt("Ingrese temperatura"));
+		while (temperatura <= 35 || temperatura >= 45 || isNaN(temperatura)) {
+			temperatura = parseFloat(prompt("Temperatura invalida. Ingrese temperatura"));
 		}
 
-		edad = parseInt(prompt("Ingrese su edad"));
-
-		while (edad <= 0) {
-			edad = parseInt(prompt("Edad invalida. Ingrese su edad"));
-			edadPromedio = edadPromedio + edad / 5;
+		sexo = prompt("Ingrese género: f o m");
+		while (!(sexo == "f" || sexo == "m")) {
+			sexo = prompt("Sexo invalido. Ingrese género: f o m");
 		}
 
-		switch (sexo) {
-			case "f":
-				cantidadPersonasFemenino++;
-				if (flagFemenino == 0 || mujerMayorTemperatura > temperatura) {
-					mujerMayorTemperatura += temperatura;
-					flagFemenino = 1;
-				}
-
-
-				break;
-			case "m":
-				cantidadPersonasMasculino++;
-				break;
+		edad = parseInt(prompt("Ingrese edad"));
+		while (isNaN(edad) || edad <= 0) {
+			edad = parseInt(prompt("Edad invalida. Ingrese edad"));
 		}
+
+		if (sexo == "f") {
+			contadorMujeres++;
+			if (contadorMujeres > 0 && temperatura > mujerMasTemperatura) {
+				mujerMasTemperatura = temperatura;
+				nombreMujerMasTemperatura = nombre;
+			}
+		}
+		else {
+			contadorHombres++;
+		}
+
+
+		edadTotal += edad;
 	}
-	console.log("La cantidad de mujeres es: "cantidadPersonasFemenino + " " + "La cantidad de hombres es: "+cantidadPersonasMasculino);
 
-	console.log("La mayor temperatura femenina es: " + mujerMayorTemperatura);
+	promedio = edadTotal / 5;
+	console.log(`A- Hay: ${contadorHombres} hombres y ${contadorMujeres} mujeres`);
+	console.log("B- El promedio de edad es: " + promedio);
+	if (contadorMujeres == 0) {
+		console.log("C-No se registraron mujeres");
+	}
+	else {
+		console.log("C- La mujer con mas temperatura es: " + nombreMujerMasTemperatura + " y tiene: " + mujerMasTemperatura + " grados");
+	}
 
-	console.log("La edad preomedio es: " + edadPromedio);
-
-	
 }
